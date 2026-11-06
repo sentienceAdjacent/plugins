@@ -1,0 +1,8 @@
+[
+  {
+    "plugin": "onenote",
+    "repo": "sentienceAdjacent/onenote-mcp",
+    "asset": "onenote-{version}-win-x64.zip",
+    "since": "0.4.0-rc.4"
+  }
+]

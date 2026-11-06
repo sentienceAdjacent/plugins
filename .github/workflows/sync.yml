@@ -1,0 +1,55 @@
+name: sync
+
+# Pins each plugin in .github/sources.json to its newest release (scripts/sync.sh), validates the
+# catalog, and commits the change to main as github-actions[bot]. This repo pulls: no other repo
+# holds a token that can write here. Run it by hand after a release with
+#   gh workflow run sync -R sentienceAdjacent/plugins
+# or wait for the daily run.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 6 * * *'
+
+permissions:
+  contents: write
+
+# One sync at a time, so two runs never race to push the same pin.
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      # Same pin as ci.yml and as onenote-mcp. Bump it deliberately.
+      - name: Install Claude Code
+        run: npm i -g @anthropic-ai/claude-code@2.1.318
+
+      - name: Pin the newest releases
+        run: SYNC_SUMMARY="$RUNNER_TEMP/pinned.txt" bash scripts/sync.sh
+
+      - name: Validate marketplace
+        run: claude plugin validate --strict .
+
+      - name: Commit the pins
+        run: |
+          if git diff --quiet; then echo "Nothing new to pin."; exit 0; fi
+          git diff
+          pinned=$(paste -sd, "$RUNNER_TEMP/pinned.txt" | sed 's/,/, /g')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore(sync): pin ${pinned}"
+          # main may have moved while this ran: rebase once and retry.
+          git push origin HEAD:main || { git pull --rebase origin main && git push origin HEAD:main; }

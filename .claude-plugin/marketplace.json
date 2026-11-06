@@ -1,0 +1,20 @@
+{
+  "name": "sentienceadjacent",
+  "owner": {
+    "name": "sentienceAdjacent",
+    "url": "https://github.com/sentienceAdjacent"
+  },
+  "description": "Claude Code plugins and skills from sentienceAdjacent.",
+  "plugins": [
+    {
+      "name": "onenote",
+      "description": "Read and manage OneNote desktop notebooks on this Windows machine through OneNote's COM automation API.",
+      "homepage": "https://github.com/sentienceAdjacent/onenote-mcp",
+      "source": {
+        "source": "archive",
+        "url": "https://github.com/sentienceAdjacent/onenote-mcp/releases/download/v0.4.0-rc.4/onenote-0.4.0-rc.4-win-x64.zip",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  ]
+}
