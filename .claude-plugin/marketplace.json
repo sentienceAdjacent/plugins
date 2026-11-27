@@ -12,8 +12,8 @@
       "homepage": "https://github.com/sentienceAdjacent/onenote-mcp",
       "source": {
         "source": "archive",
-        "url": "https://github.com/sentienceAdjacent/onenote-mcp/releases/download/v0.9.0-rc.1/onenote-0.9.0-rc.1-win-x64.zip",
-        "sha256": "05caf106a6a84c39a988b3bbee12db1562cf146e219203230c0892e830263304"
+        "url": "https://github.com/sentienceAdjacent/onenote-mcp/releases/download/v0.10.0-rc.1/onenote-0.10.0-rc.1-win-x64.zip",
+        "sha256": "865e9cb41c920d0b56d24592d4f7c732adad369e2020a0eb0671401e3a54038d"
       }
     }
   ]
