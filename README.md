@@ -24,3 +24,7 @@ Each plugin built from releases is listed in `.github/sources.json`. After each 
 ## Licences
 
 The catalog and scripts in this repo are under the [MIT licence](LICENSE). Each plugin keeps its own licence, given in its own repo: installing a plugin from here doesn't change its terms.
+
+## Validator pin
+
+`ci.yml` and `sync.yml` install a pinned Claude Code version to run `claude plugin validate`, and onenote-mcp pins the same version in its `ci.yml` and `release.yml`. The `ci` workflow runs `scripts/check-validator-pin.sh`, which fails when any of the four differ, reading onenote-mcp's pins from its `main` branch. When onenote-mcp bumps its pin, bump both here to match, or run `gh workflow run ci -R sentienceAdjacent/plugins` to check.

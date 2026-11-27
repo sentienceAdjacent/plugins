@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: '22'
 
-      # Same pin as ci.yml and as onenote-mcp. Bump it deliberately.
+      # Same pin as ci.yml and as onenote-mcp (ci runs scripts/check-validator-pin.sh). Bump it deliberately.
       - name: Install Claude Code
         run: npm i -g @anthropic-ai/claude-code@2.1.318
 

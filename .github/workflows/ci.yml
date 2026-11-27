@@ -3,6 +3,8 @@ name: ci
 on:
   push:
   pull_request:
+  # Run by hand after onenote-mcp bumps its validator pin: gh workflow run ci -R sentienceAdjacent/plugins
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,12 +19,16 @@ jobs:
         with:
           node-version: '22'
 
-      # Same pin as sync.yml and as onenote-mcp, so a validator change can't break a green build unannounced.
+      # Same pin as sync.yml and as onenote-mcp (scripts/check-validator-pin.sh checks it), so a validator change can't break a green build unannounced.
       - name: Install Claude Code
         run: npm i -g @anthropic-ai/claude-code@2.1.318
 
       - name: Check the sync script parses
         run: bash -n scripts/sync.sh
+
+      # Fails when this pin, sync.yml's, or onenote-mcp's (ci.yml and release.yml on main) differ.
+      - name: Check the validator pin matches onenote-mcp
+        run: bash scripts/check-validator-pin.sh
 
       - name: Validate marketplace
         run: claude plugin validate --strict .
